@@ -2,8 +2,8 @@ import net from 'net';
 import { exit } from 'process';
 
 const tcpClient = new net.Socket();
-const HOST = "localhost"
-const PORT = 12000
+const HOST = 'localhost';
+const PORT = 12000;
 
 const MILLISECONDS = 500;
 const ERROR_CHANCE = 15;
@@ -11,7 +11,7 @@ const ERROR_CHANCE = 15;
 function generate_and_send_battery_data() {
     let generated_value: number = 0;
     let error_flag = getRandomIntInclusive(1, ERROR_CHANCE);
-    
+
     switch (error_flag) {
         case 1:
             generated_value = getRandomIntInclusive(82, 1000); // out of range
@@ -23,24 +23,23 @@ function generate_and_send_battery_data() {
             generated_value = getRandomIntInclusive(20, 80) + Math.random();
             break;
     }
-    
+
     let data = {
-        "battery_temperature" : generated_value,
-        "timestamp": Date.now()
+        battery_temperature: generated_value,
+        timestamp: Date.now(),
     };
-    
+
     if (!(tcpClient.destroyed || tcpClient.closed)) {
-        let json_string = JSON.stringify(data)
+        let json_string = JSON.stringify(data);
         if (error_flag === 3) {
             // make invalid JSON string by adding an extra symbol
-            json_string += '}'
+            json_string += '}';
         }
         tcpClient.write(json_string);
     } else {
-        console.log("connection to server closed");
+        console.log('connection to server closed');
         exit();
     }
-    
 }
 
 function getRandomIntInclusive(min: number, max: number) {
@@ -49,15 +48,17 @@ function getRandomIntInclusive(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
-tcpClient.connect(PORT, HOST, function(){
+tcpClient.connect(PORT, HOST, function () {
     console.log('CONNECTED TO: ' + HOST + ':' + PORT);
 });
 
-tcpClient.on('error', function(e) {
+tcpClient.on('error', function (e) {
     console.log(e.message);
 });
 
-tcpClient.on("connect", () => {
-    console.log(`starting to generate and send emulated battery data every ${MILLISECONDS} milliseconds`)
+tcpClient.on('connect', () => {
+    console.log(
+        `starting to generate and send emulated battery data every ${MILLISECONDS} milliseconds`
+    );
     setInterval(generate_and_send_battery_data, MILLISECONDS);
-})
+});
