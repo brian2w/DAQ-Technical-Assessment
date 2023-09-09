@@ -26,3 +26,4 @@ jobs:
           cd ${{ matrix.project_dir }}
           npm ci
           npm run lint
+          npm run test
