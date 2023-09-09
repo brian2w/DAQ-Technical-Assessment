@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies and run ESLint
         run: |
           cd ${{ matrix.project_dir }}
-          npm ci
+          npm i
           npm run lint
 
   test:
@@ -45,5 +45,5 @@ jobs:
       - name: Install dependencies and run tests
         run: |
           cd ${{ matrix.project_dir }}
-          npm ci
+          npm i
           npm test
