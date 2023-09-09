@@ -1,0 +1,28 @@
+name: ESLint
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  eslint:
+    name: Run ESLint in Multiple Projects
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        project_dir:
+          - ./battery-ui
+          - ./data-emulator
+          - ./streaming-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and run ESLint
+        run: |
+          cd ${{ matrix.project_dir }}
+          npm ci
+          npm run lint
