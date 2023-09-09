@@ -22,7 +22,7 @@ tcpServer.on('connection', (socket) => {
         // HINT: what happens if the JSON in the received message is formatted incorrectly?
         // HINT: see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
         try {
-            let currJSON = JSON.parse(msg.toString());
+            const currJSON = JSON.parse(msg.toString());
             if (
                 currJSON.battery_temperature < 20 ||
                 currJSON.battery_temperature > 80

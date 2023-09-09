@@ -9,7 +9,7 @@ interface TemperatureProps {
 function LiveValue({ temp }: TemperatureProps) {
   const [isGlowing, setIsGlowing] = useState(true);
 
-  let valueColour = 'white';
+  // const valueColour = 'white';
   const red = Math.min(255, Math.max(0, temp));
   const blue = Math.min(255, Math.max(0, 180 - temp));
 
